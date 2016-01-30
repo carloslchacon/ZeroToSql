@@ -1,0 +1,156 @@
+USE LearnSQL
+GO
+
+/* 
+ * TABLE: Fish 
+ */
+
+CREATE TABLE Fish
+    (
+      FishIdentifier INT IDENTITY(1500, 1) ,
+      BirthDateOfFish DATETIME NULL ,
+      BreedOfFish VARCHAR(30) NULL ,
+      ColorOfFish VARCHAR(25) NOT NULL ,
+      MonthsWithOwner INT NULL ,
+      NameOfFish CHAR(40) NOT NULL ,
+      OwnerIdentifier INT NULL ,
+      TankSizeInGallons SMALLINT NULL ,
+      PRIMARY KEY NONCLUSTERED ( FishIdentifier )
+    )
+GO
+
+/* 
+ * INDEX: Ref56 
+ */
+
+CREATE INDEX Ref56 ON Fish(OwnerIdentifier)
+GO
+IF EXISTS ( SELECT  *
+            FROM    sys.indexes
+            WHERE   object_id = OBJECT_ID('Fish')
+                    AND name = 'Ref56' )
+    PRINT '<<< CREATED INDEX Fish.Ref56 >>>'
+ELSE
+    PRINT '<<< FAILED CREATING INDEX Fish.Ref56 >>>'
+GO
+
+IF OBJECT_ID('Fish') IS NOT NULL
+    PRINT '<<< CREATED TABLE Fish >>>'
+ELSE
+    PRINT '<<< FAILED CREATING TABLE Fish >>>'
+GO
+
+/* 
+ * TABLE: Fish 
+ */
+
+ALTER TABLE Fish ADD CONSTRAINT RefPetOwner6 
+FOREIGN KEY (OwnerIdentifier)
+REFERENCES PetOwner(OwnerIdentifier)
+GO
+
+ALTER TABLE VeterinarianVisitHistory ADD CONSTRAINT RefFish2 
+FOREIGN KEY (FishIdentifier)
+REFERENCES Fish(FishIdentifier)
+GO
+
+INSERT INTO Fish VALUES ('01/01/2008','African Cichlids','Yellow',65,'Sushi',1,1)
+INSERT INTO Fish VALUES ('11/15/2012','New World Cichlids','Pink',13,'Bubbles',10,50)
+INSERT INTO Fish VALUES ('01/21/2010','Angelfish','Black',14,'Casper',15,3)
+INSERT INTO Fish VALUES ('02/16/2004','Barbs','Cherry',15,'Flash',20,40)
+INSERT INTO Fish VALUES ('04/13/2003','Bettas','Red',16,'McClovin',25,5)
+INSERT INTO Fish VALUES ('04/13/2004','Bichir','Silver',17,'McLovin',30,20)
+INSERT INTO Fish VALUES ('05/16/2013','Cory Cats','Emerald',18,'Pile o'' Skulls',35,10)
+INSERT INTO Fish VALUES ('06/16/2012','Danios/Minnows','Blue',19,'Shadow',40,15)
+INSERT INTO Fish VALUES ('01/01/2013','Discus','Neon Blue',20,'Sunny',45,1)
+INSERT INTO Fish VALUES ('03/03/2009','Goldfish','Gold',21,'Ariel',50,50)
+INSERT INTO Fish VALUES ('02/02/2003','Extra Large Oddball Fish','Silver',22,'Comet',55,3)
+INSERT INTO Fish VALUES ('06/06/2009','Gouramis','Opaline',23,'Freckles',60,40)
+INSERT INTO Fish VALUES ('09/09/2008','Guppies','Green',24,'Johnston',65,5)
+INSERT INTO Fish VALUES ('10/10/2013','Hatchets','Silver',25,'Spike',70,20)
+INSERT INTO Fish VALUES ('01/01/2003','Killifish','Silver and Black',26,'Ace',75,10)
+INSERT INTO Fish VALUES ('02/02/2004','Larger Catfish','Yellow and Black',27,'Al Kuai',80,15)
+INSERT INTO Fish VALUES ('03/03/2003','Loaches','Yellow and Black',28,'Airmarshalljon',85,1)
+INSERT INTO Fish VALUES ('04/04/2004','Mollies','Black',29,'Berger',90,50)
+INSERT INTO Fish VALUES ('05/05/2005','Platy','Blue',30,'Gary',95,3)
+INSERT INTO Fish VALUES ('06/06/2006','Plecos','Black and Yellow',50,'Bicker',100,40)
+INSERT INTO Fish VALUES ('07/07/2007','Rainbowfish','Blue and Yellow',49,'Blade',105,5)
+INSERT INTO Fish VALUES ('08/08/2008','Rasboras','Black and Orange',48,'Nemo',110,20)
+INSERT INTO Fish VALUES ('09/09/2009','Sharks','Black and Red',47,'Crimson',115,10)
+INSERT INTO Fish VALUES ('10/10/2010','Sucker Cats','Gold',46,'Blingo',120,15)
+INSERT INTO Fish VALUES ('11/11/2011','Swordtails','Orange',45,'Bob',125,1)
+INSERT INTO Fish VALUES ('12/12/2012','Tetras','Neon Blue and Red',43,'Bright Pix',130,50)
+INSERT INTO Fish VALUES ('12/13/2010','Brackish','Black',42,'Bubble Galaxy',135,3)
+INSERT INTO Fish VALUES ('01/06/2009','African Cichlids','Yellow',41,'Brat',140,40)
+INSERT INTO Fish VALUES ('02/02/2010','New World Cichlids','Pink',3,'Anarchy',145,5)
+INSERT INTO Fish VALUES ('12/12/2009','Angelfish','Black',4,'Aphrodite',150,20)
+INSERT INTO Fish VALUES ('01/01/2015','Barbs','Cherry',5,'Alston',155,10)
+INSERT INTO Fish VALUES ('08/08/2015','Bettas','Red',6,'Bubbles',160,15)
+INSERT INTO Fish VALUES ('01/01/2014','Bichir','Silver',7,'Gillian',165,1)
+INSERT INTO Fish VALUES ('11/15/2014','Cory Cats','Emerald',8,'Glimmer',170,50)
+INSERT INTO Fish VALUES ('01/21/2014','Danios/Minnows','Blue',9,'Blue',175,3)
+INSERT INTO Fish VALUES ('02/16/2014','Discus','Neon Blue',10,'Goggle',180,40)
+INSERT INTO Fish VALUES ('04/13/2010','Goldfish','Gold',55,'Goldie',185,5)
+INSERT INTO Fish VALUES ('04/13/2010','Extra Large Oddball Fish','Silver',56,'Fishi',190,20)
+INSERT INTO Fish VALUES ('05/16/2010','Gouramis','Opaline',57,'Fishy',195,10)
+INSERT INTO Fish VALUES ('06/16/2010','Guppies','Green',58,'Sunn',200,15)
+INSERT INTO Fish VALUES ('01/01/2010','Hatchets','Silver',59,'Floyd',210,1)
+INSERT INTO Fish VALUES ('03/03/2009','Killifish','Silver and Black',60,'Fluffy',205,50)
+INSERT INTO Fish VALUES ('02/02/2003','Larger Catfish','Yellow and Black',62,'Freckles',215,3)
+INSERT INTO Fish VALUES ('06/06/2009','Loaches','Yellow and Black',62,'Goliath',220,40)
+INSERT INTO Fish VALUES ('09/09/2008','Mollies','Black',63,'Goober',225,5)
+INSERT INTO Fish VALUES ('10/10/2009','Platy','Blue',64,'Fred',230,20)
+INSERT INTO Fish VALUES ('01/01/2005','Plecos','Black and Yellow',65,'Fresco',235,10)
+INSERT INTO Fish VALUES ('02/02/2005','Rainbowfish','Blue and Yellow',51,'Gabby',240,15)
+INSERT INTO Fish VALUES ('03/03/2003','Rasboras','Black and Orange',52,'Gandolf',245,1)
+INSERT INTO Fish VALUES ('04/04/2004','Sharks','Black and Red',53,'George',250,50)
+INSERT INTO Fish VALUES ('05/05/2005','Sucker Cats','Gold',54,'Geriattics',255,3)
+INSERT INTO Fish VALUES ('06/06/2006','Swordtails','Orange',55,'Gilbert',260,40)
+INSERT INTO Fish VALUES ('07/07/2007','Tetras','Neon Blue and Red',56,'Blubles',265,5)
+INSERT INTO Fish VALUES ('08/08/2008','Misc. Fish','Black',57,'Butterbill',270,20)
+INSERT INTO Fish VALUES ('09/09/2009','Brackish','Yellow',58,'Captain Jack',275,10)
+INSERT INTO Fish VALUES ('10/10/2010','African Cichlids','Pink',59,'Casimir',280,15)
+INSERT INTO Fish VALUES ('11/11/2011','New World Cichlids','Black',60,'Chapuys',285,1)
+INSERT INTO Fish VALUES ('12/12/2012','Angelfish','Cherry',1,'Da Koi',290,50)
+INSERT INTO Fish VALUES ('12/13/2010','Barbs','Red',8,'Choochoo',295,3)
+INSERT INTO Fish VALUES ('01/06/2009','Bettas','Silver',11,'Cocoa',300,40)
+INSERT INTO Fish VALUES ('02/02/2010','Bichir','Emerald',4,'Lila',305,5)
+INSERT INTO Fish VALUES ('12/12/2009','Cory Cats','Blue',5,'Confucius',310,20)
+INSERT INTO Fish VALUES ('08/08/2014','Danios/Minnows','Neon Blue',6,'Cookie',315,10)
+INSERT INTO Fish VALUES ('01/01/2014','Discus','Gold',7,'Crush',320,15)
+INSERT INTO Fish VALUES ('11/15/2014','Goldfish','Silver',8,'Dad Fish',325,1)
+INSERT INTO Fish VALUES ('01/21/2014','Extra Large Oddball Fish','Opaline',9,'Dafishbowl',330,50)
+INSERT INTO Fish VALUES ('02/16/2014','Gouramis','Green',10,'Deb',335,3)
+INSERT INTO Fish VALUES ('04/13/2014','Guppies','Silver',11,'Delos',340,40)
+INSERT INTO Fish VALUES ('04/13/2013','Hatchets','Silver and Black',12,'Dexter',345,5)
+INSERT INTO Fish VALUES ('05/16/2013','Killifish','Yellow and Black',14,'Dick',350,20)
+INSERT INTO Fish VALUES ('06/16/2013','Larger Catfish','Yellow and Black',15,'Dordor',355,10)
+INSERT INTO Fish VALUES ('01/01/2014','Loaches','Black',16,'Dr. Seuss',5,15)
+INSERT INTO Fish VALUES ('03/03/2013','Mollies','Blue',17,'Dr. Dre',10,1)
+INSERT INTO Fish VALUES ('02/02/2013','Platy','Black and Yellow',18,'Draco',15,50)
+INSERT INTO Fish VALUES ('06/06/2009','Plecos','Blue and Yellow',19,'Drago',20,3)
+INSERT INTO Fish VALUES ('09/09/2008','Rainbowfish','Black and Orange',120,'Cuke',25,40)
+INSERT INTO Fish VALUES ('10/10/2005','Rasboras','Black and Red',130,'Dusty',30,5)
+INSERT INTO Fish VALUES ('01/01/2009','Sharks','Gold',140,'Earl',35,20)
+INSERT INTO Fish VALUES ('02/02/2009','Sucker Cats','Orange',145,'Eedu',40,10)
+INSERT INTO Fish VALUES ('03/03/2010','Swordtails','Neon Blue and Red',159,'Electric',45,15)
+INSERT INTO Fish VALUES ('04/04/2003','Tetras','Black',160,'Elsa',50,1)
+INSERT INTO Fish VALUES ('05/05/2003','Misc. Fish','Yellow',161,'Earnest',55,50)
+INSERT INTO Fish VALUES ('06/06/2003','Brackish','Pink',162,'Ernie',60,3)
+INSERT INTO Fish VALUES ('07/07/2003','African Cichlids','Black',165,'Ezekiel',65,40)
+INSERT INTO Fish VALUES ('08/08/2008','New World Cichlids','Cherry',44,'Fancy',70,5)
+INSERT INTO Fish VALUES ('09/09/2009','Angelfish','Red',45,'Pal',75,20)
+INSERT INTO Fish VALUES ('10/10/2010','Barbs','Silver',46,'Feisty da dish',80,10)
+INSERT INTO Fish VALUES ('11/11/2011','Bettas','Emerald',47,'An Kai',85,15)
+INSERT INTO Fish VALUES ('12/12/2012','Bichir','Blue',48,'Andro Sostar',90,1)
+INSERT INTO Fish VALUES ('12/13/2010','Cory Cats','Neon Blue',49,'Asa',95,50)
+INSERT INTO Fish VALUES ('01/06/2009','Danios/Minnows','Gold',50,'Azhdeha',100,3)
+INSERT INTO Fish VALUES ('02/02/2010','Discus','Silver',61,'Azzuri',105,40)
+INSERT INTO Fish VALUES ('12/12/2009','Goldfish','Opaline',62,'Babel',110,5)
+INSERT INTO Fish VALUES ('08/08/2010','Extra Large Oddball Fish','Green',63,'Finley',115,20)
+INSERT INTO Fish VALUES ('09/10/2010','Gouramis','Silver',64,'Bacon',120,10)
+INSERT INTO Fish VALUES ('11/15/2008','Guppies','Silver and Black',65,'Batista',125,15)
+INSERT INTO Fish VALUES ('01/21/2007','Hatchets','Yellow and Black',67,'Blade',130,1)
+INSERT INTO Fish VALUES ('10/10/2014','Killifish','Yellow and Black',66,'Nemo',135,50)
+INSERT INTO Fish VALUES ('05/05/2015','Larger Catfish','Black',87,'Crimson',140,3)
+INSERT INTO Fish VALUES ('05/09/2015','Loaches','Blue',69,'Blingo',145,40)
