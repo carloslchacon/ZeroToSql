@@ -1,0 +1,318 @@
+USE LearnSQL
+GO
+IF OBJECT_ID('VeterinarianVisitHistory') IS NOT NULL
+    BEGIN
+        DROP TABLE VeterinarianVisitHistory
+        PRINT '<<< DROPPED TABLE VeterinarianVisitHistory >>>'
+    END
+GO
+IF OBJECT_ID('Cat') IS NOT NULL
+    BEGIN
+        DROP TABLE Cat
+        PRINT '<<< DROPPED TABLE Cat >>>'
+    END
+GO
+IF OBJECT_ID('Dog') IS NOT NULL
+    BEGIN
+        DROP TABLE Dog
+        PRINT '<<< DROPPED TABLE Dog >>>'
+    END
+GO
+IF OBJECT_ID('Fish') IS NOT NULL
+    BEGIN
+        DROP TABLE Fish
+        PRINT '<<< DROPPED TABLE Fish >>>'
+    END
+GO
+IF OBJECT_ID('PetOwner') IS NOT NULL
+    BEGIN
+        DROP TABLE PetOwner
+        PRINT '<<< DROPPED TABLE PetOwner >>>'
+    END
+GO
+
+/* 
+ * TABLE: Cat 
+ */
+
+CREATE TABLE Cat
+    (
+      CatIdentifier INT IDENTITY(1000, 1) ,
+      BirthDateOfCat DATETIME NULL ,
+      BreedOfCat VARCHAR(30) NULL ,
+      ColorOfCat VARCHAR(30) NOT NULL ,
+      KeptIndoors BIT NOT NULL ,
+      MonthsWithOwner INT NULL ,
+      NameOfCat CHAR(40) NOT NULL ,
+      OwnerIdentifier INT NULL ,
+	  WeightOfCatInPounds SMALLINT NULL,
+      PRIMARY KEY NONCLUSTERED ( CatIdentifier )
+    )
+GO
+
+
+
+IF OBJECT_ID('Cat') IS NOT NULL
+    PRINT '<<< CREATED TABLE Cat >>>'
+ELSE
+    PRINT '<<< FAILED CREATING TABLE Cat >>>'
+GO
+
+/* 
+ * TABLE: Dog 
+ */
+
+CREATE TABLE Dog
+    (
+      DogIdentifier INT IDENTITY(500, 1) ,
+      BirthDateOfDog DATETIME NULL ,
+      BreedOfDog VARCHAR(30) NULL ,
+      ColorOfDog VARCHAR(30) NOT NULL ,
+      KeptIndoors BIT NOT NULL ,
+      MonthsWithOwner INT NULL ,
+      NameOfDog CHAR(40) NOT NULL ,
+      OwnerIdentifier INT NULL ,
+	  WeightOfDogInPounds SMALLINT NULL,
+      PRIMARY KEY NONCLUSTERED ( DogIdentifier )
+    )
+GO
+
+
+/* 
+ * TABLE: Animal 
+ */
+
+CREATE TABLE AnimalsToBePlaced
+    (
+      AnimalIdentifier INT IDENTITY(1, 1) ,
+      BirthDateOfAnimal DATETIME NULL ,
+      BreedOfAnimal VARCHAR(30) NULL ,
+      ColorOfAnimal VARCHAR(30) NOT NULL ,
+      KeptIndoors BIT NOT NULL ,
+      MonthsWithOwner INT NULL ,
+      NameOfAnimal CHAR(40) NOT NULL ,
+      OwnerIdentifier INT NULL ,
+	  TypeOfAnimal VARCHAR(10),
+      PRIMARY KEY NONCLUSTERED ( AnimalIdentifier )
+    )
+GO
+
+
+IF OBJECT_ID('AnimalsToBePlaced') IS NOT NULL
+    PRINT '<<< CREATED TABLE AnimalsToBePlaced >>>'
+ELSE
+    PRINT '<<< FAILED CREATING TABLE AnimalsToBePlaced >>>'
+GO
+
+
+
+/* 
+ * TABLE: PetOwner 
+ */
+
+CREATE TABLE PetOwner
+    (
+      OwnerIdentifier INT IDENTITY(1, 1) ,
+      OwnerName VARCHAR(50) NOT NULL ,
+      OwnerAge INT NULL ,
+      OwnerGender CHAR(1) NULL ,
+      CountryOfResidence VARCHAR(80) NULL ,
+      PRIMARY KEY NONCLUSTERED ( OwnerIdentifier )
+    )
+GO
+
+
+
+IF OBJECT_ID('PetOwner') IS NOT NULL
+    PRINT '<<< CREATED TABLE PetOwner >>>'
+ELSE
+    PRINT '<<< FAILED CREATING TABLE PetOwner >>>'
+GO
+
+/* 
+ * TABLE: VeterinarianVisitHistory 
+ */
+
+CREATE TABLE VeterinarianVisitHistory
+    (
+      VeterinarianVisitIdentifier INT IDENTITY(1, 1) ,
+      VisitDate DATETIME NOT NULL ,
+      ReasonForVisit VARCHAR(500) NULL ,
+      FleaMedicineAdministered BIT NULL ,
+      RabiesShotCurrent BIT NULL ,
+      DateOfNextAppointment DATE NULL ,
+      DogIdentifier INT NULL ,
+      FishIdentifier INT NULL ,
+      CatIdentifier INT NULL ,
+      PRIMARY KEY NONCLUSTERED ( VeterinarianVisitIdentifier )
+    )
+GO
+
+
+
+IF OBJECT_ID('VeterinarianVisitHistory') IS NOT NULL
+    PRINT '<<< CREATED TABLE VeterinarianVisitHistory >>>'
+ELSE
+    PRINT '<<< FAILED CREATING TABLE VeterinarianVisitHistory >>>'
+GO
+
+/* 
+ * INDEX: Ref55 
+ */
+
+CREATE INDEX Ref55 ON Cat(OwnerIdentifier)
+GO
+IF EXISTS ( SELECT  *
+            FROM    sys.indexes
+            WHERE   object_id = OBJECT_ID('Cat')
+                    AND name = 'Ref55' )
+    PRINT '<<< CREATED INDEX Cat.Ref55 >>>'
+ELSE
+    PRINT '<<< FAILED CREATING INDEX Cat.Ref55 >>>'
+GO
+
+/* 
+ * INDEX: Ref54 
+ */
+
+CREATE INDEX Ref54 ON Dog(OwnerIdentifier)
+GO
+IF EXISTS ( SELECT  *
+            FROM    sys.indexes
+            WHERE   object_id = OBJECT_ID('Dog')
+                    AND name = 'Ref54' )
+    PRINT '<<< CREATED INDEX Dog.Ref54 >>>'
+ELSE
+    PRINT '<<< FAILED CREATING INDEX Dog.Ref54 >>>'
+GO
+
+
+/* 
+ * INDEX: Ref21 
+ */
+
+CREATE INDEX Ref21 ON VeterinarianVisitHistory(DogIdentifier)
+GO
+IF EXISTS ( SELECT  *
+            FROM    sys.indexes
+            WHERE   object_id = OBJECT_ID('VeterinarianVisitHistory')
+                    AND name = 'Ref21' )
+    PRINT '<<< CREATED INDEX VeterinarianVisitHistory.Ref21 >>>'
+ELSE
+    PRINT '<<< FAILED CREATING INDEX VeterinarianVisitHistory.Ref21 >>>'
+GO
+
+/* 
+ * INDEX: Ref32 
+ */
+
+CREATE INDEX Ref32 ON VeterinarianVisitHistory(FishIdentifier)
+GO
+IF EXISTS ( SELECT  *
+            FROM    sys.indexes
+            WHERE   object_id = OBJECT_ID('VeterinarianVisitHistory')
+                    AND name = 'Ref32' )
+    PRINT '<<< CREATED INDEX VeterinarianVisitHistory.Ref32 >>>'
+ELSE
+    PRINT '<<< FAILED CREATING INDEX VeterinarianVisitHistory.Ref32 >>>'
+GO
+
+/* 
+ * INDEX: Ref13 
+ */
+
+CREATE INDEX Ref13 ON VeterinarianVisitHistory(CatIdentifier)
+GO
+IF EXISTS ( SELECT  *
+            FROM    sys.indexes
+            WHERE   object_id = OBJECT_ID('VeterinarianVisitHistory')
+                    AND name = 'Ref13' )
+    PRINT '<<< CREATED INDEX VeterinarianVisitHistory.Ref13 >>>'
+ELSE
+    PRINT '<<< FAILED CREATING INDEX VeterinarianVisitHistory.Ref13 >>>'
+GO
+
+/* 
+ * TABLE: Cat 
+ */
+
+ALTER TABLE Cat ADD CONSTRAINT RefPetOwner5 
+FOREIGN KEY (OwnerIdentifier)
+REFERENCES PetOwner(OwnerIdentifier)
+GO
+
+
+/* 
+ * TABLE: Dog 
+ */
+
+ALTER TABLE Dog ADD CONSTRAINT RefPetOwner4 
+FOREIGN KEY (OwnerIdentifier)
+REFERENCES PetOwner(OwnerIdentifier)
+GO
+
+
+/* 
+ * TABLE: VeterinarianVisitHistory 
+ */
+
+ALTER TABLE VeterinarianVisitHistory ADD CONSTRAINT RefDog1 
+FOREIGN KEY (DogIdentifier)
+REFERENCES Dog(DogIdentifier)
+GO
+
+
+ALTER TABLE VeterinarianVisitHistory ADD CONSTRAINT RefCat3 
+FOREIGN KEY (CatIdentifier)
+REFERENCES Cat(CatIdentifier)
+GO
+
+CREATE VIEW Random_V
+AS
+ SELECT RAND() rndResult
+ GO;
+  
+
+ALTER FUNCTION ChooseNewName 
+(
+@AnimalType VARCHAR(15)
+)
+RETURNS CHAR(40)
+BEGIN
+DECLARE @RandomNumber float
+ DECLARE @RandomInteger int
+ DECLARE @MaxValue int
+ DECLARE @MinValue INT
+ DECLARE @NewName CHAR(40)
+
+ SELECT @RandomNumber = rndResult FROM Random_V
+
+ SELECT @RandomInteger = ((@MaxValue + 1) - @MinValue) * @RandomNumber + @MinValue
+ IF @AnimalType NOT IN ('Cat','Dog')
+ SET @NewName = 'Select Cat or Dog for a new Name'
+
+ IF @AnimalType = 'Dog'
+ BEGIN
+  SET @MaxValue = 500
+ SET @MinValue = 775
+ SELECT @RandomInteger = ((@MaxValue + 1) - @MinValue) * @RandomNumber + @MinValue
+
+ SELECT @NewName = NAMEOFDOG
+FROM Dog
+WHERE DogIdentifier  = @RandomInteger
+ END
+
+  IF @AnimalType = 'Cat'
+ BEGIN
+  SET @MaxValue = 1000
+  SET @MinValue = 1265
+ SELECT @RandomInteger = ((@MaxValue + 1) - @MinValue) * @RandomNumber + @MinValue
+
+ SELECT @NewName = NAMEOFCat
+FROM Cat
+WHERE CatIdentifier  = @RandomInteger
+ END
+
+ RETURN @NewName
+
+END
