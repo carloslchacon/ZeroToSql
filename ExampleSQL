@@ -1,0 +1,545 @@
+/******************************************************************************************* 
+* Welcome Compañero!  I am glad you choose to follow along.  
+* This file lists all the queries used in the book Zero to SQL in 20 lessons; however, there
+* may be more queries on the zerotosql site that are not included here.
+*
+* This document is broken up by Lesson, so you can search for the Lesson you on as you 
+* go through the examples.
+*
+* It is listed here at the top; however, if you skip down be sure to run the USE LearnSQL command
+* or use the dropdown in the SQL Server Management Studio window to change the database name.
+* October 2016
+* Version 1.0
+********************************************************************************************/
+
+USE LearnSQL
+GO
+
+/*This section is for Lesson 3 (three)*/
+/*Example--Selecting From Each TABLE*/
+SELECT  *
+FROM    Cat
+
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        ColorOfCat
+FROM    Cat
+
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog
+FROM    Dog
+
+/*Distinct Operator*/
+SELECT DISTINCT Dog.ColorOfDog
+FROM Dog
+SELECT DISTINCT Dog.ColorOfDog, Dog.BreedOfDog
+FROM Dog
+
+/*Top Operator*/
+SELECT TOP 5 PetOwner.OwnerName, PetOwner.OwnerAge, PetOwner.OwnerGender 
+FROM PetOwner
+
+SELECT TOP 1 PERCENT PetOwner.OwnerName, PetOwner.OwnerAge, PetOwner.OwnerGender 
+FROM PetOwner
+
+
+/*Lesson 4*/
+/*Example Filtering*/
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        ColorOfCat
+FROM    Cat
+WHERE   NameOfCat = 'Garfield'
+
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog
+FROM    Dog
+WHERE   MonthsWithOwner < 2
+
+/*Example--Filtering with Like Clause*/
+SELECT  Cat.NameOfCat, Cat.BreedOfCat
+FROM    Cat
+WHERE   NameOfCat LIKE 'Gar%'
+
+/*Example--Filtering with IN Clause*/
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog
+FROM    Dog
+WHERE   NameOfDog IN ( 'Pluto', 'Lassie', 'Benji', 'Old Yeller' )
+
+SELECT  OwnerName ,
+PetOwner.OwnerAge,
+        OwnerGender
+FROM    dbo.PetOwner
+WHERE   OwnerAge IN ( 8, 10, 12, 14, 16 )
+
+/*Example--Filtering with NOT IN Clause*/
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog
+FROM    Dog
+WHERE   NameOfDog NOT IN ( 'Hercules', 'Spike','Pongo','Ace','Clifford','Laddie','Rover')
+
+/*Example--Filtering using AND Clause*/
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog
+FROM    Dog
+WHERE   NameOfDog IN ( 'Pluto', 'Lassie', 'Benji', 'Old Yeller' )
+        AND MonthsWithOwner > 24
+
+/*Checking Your Data--Including all where clause items*/
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog,
+		MonthsWithOwner
+FROM    Dog
+WHERE   NameOfDog IN ( 'Pluto', 'Lassie', 'Benji', 'Old Yeller' )
+        AND MonthsWithOwner > 24
+
+/*Or vs AND*/
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog
+FROM    Dog
+WHERE   NameOfDog IN ( 'Pluto', 'Lassie', 'Benji', 'Old Yeller' )
+        OR MonthsWithOwner > 24
+
+/*Many Options*/
+SELECT  
+       Dog.ColorOfDog
+      , Dog.MonthsWithOwner
+      , Dog.NameOfDog
+      , PetOwner.OwnerName
+      , PetOwner.CountryOfResidence FROM Dog
+INNER JOIN PetOwner ON PetOwner.OwnerIdentifier = Dog.OwnerIdentifier
+WHERE Dog.ColorOfDog like '%white%'
+AND PetOwner.CountryOfResidence = 'Costa Rica'
+AND Dog.MonthsWithOwner > 24
+
+/*Lesson 5*/
+/*Example--Ordering Data*/
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        ColorOfCat
+FROM    Cat
+WHERE   NameOfCat LIKE 'Gar%'
+ORDER BY NameOfCat
+
+/*ASC is assumed in sorting.  This query and the above are the same*/
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        ColorOfCat
+FROM    Cat
+WHERE   NameOfCat LIKE 'Gar%'
+ORDER BY NameOfCat
+
+/*Order By DESC*/
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        ColorOfCat
+FROM    Cat
+WHERE   NameOfCat LIKE 'Gar%'
+ORDER BY NameOfCat DESC
+
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        ColorOfCat
+FROM    Cat
+WHERE   NameOfCat LIKE 'Gar%'
+ORDER BY NameOfCat ,
+        BreedOfCat 
+
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        MonthsWithOwner
+FROM    Cat
+WHERE   NameOfCat LIKE 'Gar%'
+ORDER BY MonthsWithOwner DESC ,
+        NameOfCat ASC
+
+SELECT  NameOfCat ,
+        BreedOfCat ,
+        MonthsWithOwner
+FROM    Cat
+WHERE   NameOfCat LIKE 'Gar%'
+ORDER BY 1, 2
+
+
+/*Lesson 6*/
+/*Example--Inner Join*/
+SELECT  Dog.DogIdentifier, NameOfDog , BreedOfDog , NameOfCat
+FROM    Dog
+        INNER JOIN Cat ON Cat.OwnerIdentifier = Dog.OwnerIdentifier
+
+/*Example--LEFT Join*/
+SELECT  Dog.DogIdentifier, NameOfDog , BreedOfDog , NameOfCat
+FROM    Dog
+        LEFT OUTER JOIN Cat ON Cat.OwnerIdentifier = Dog.OwnerIdentifier
+
+/*Example RIGHT OUTER JOIN*/
+SELECT  DogIdentifier, NameOfDog , BreedOfDog , NameOfCat
+FROM    Dog
+        RIGHT OUTER JOIN Cat ON Cat.OwnerIdentifier = Dog.OwnerIdentifier
+		ORDER BY Cat.CatIdentifier
+
+/*Lesson 7*/
+/*Manipulating Columns*/
+SELECT  NameOfCat ,
+        MonthsWithOwner / 12 AS 'Years WITH Owner'
+FROM    Cat
+WHERE   MonthsWithOwner > 12
+
+
+SELECT  NameOfDog + ' is a ' + ColorOfDog + ' dog who lives with ' + OwnerName
+        + '.' AS SQLSentence
+FROM    Dog
+        INNER JOIN dbo.PetOwner ON PetOwner.OwnerIdentifier = Dog.OwnerIdentifier
+WHERE Dog.DogIdentifier < 510
+
+/*View the columns plus the sentance*/
+SELECT  NameOfDog ,
+        ColorOfDog ,
+        OwnerName ,
+        NameOfDog + ' is a ' + ColorOfDog + ' dog who lives with ' + OwnerName
+        + '.' AS SQLSentence
+FROM    Dog
+        INNER JOIN dbo.PetOwner ON PetOwner.OwnerIdentifier = Dog.OwnerIdentifier
+WHERE Dog.DogIdentifier < 510
+
+/*Lesson 8*/
+
+/*Functions*/
+SELECT  dbo.ChooseNewName('Dog') AS NameOfDog
+
+
+SELECT  COUNT(*) AS 'Total Number of Cats'
+FROM    Cat
+
+/*Run a Fuction with No parameter*/
+SELECT  dbo.ChooseNewName() AS NameOfDog
+
+SELECT  MIN(MonthsWithOwner) AS LeastTimeWithOwner
+FROM    Cat
+
+SELECT  MAX(MonthsWithOwner) AS MostTimeWithOwner
+FROM    Cat
+
+SELECT  AVG(MonthsWithOwner) AS AvgTimeWithOwner
+FROM    Cat
+
+SELECT  AVG(MonthsWithOwner) AS AvgTimeWithOwner
+FROM    Cat
+WHERE   ColorOfCat = 'Orange'
+
+SELECT AVG(OwnerAge) AS 'Average Pet Owner Age'
+FROM PetOwner
+
+SELECT  SUM(MonthsWithOwner) AS 'Total Months of Cat Ownership'
+FROM    Cat
+
+SELECT  SUM(MonthsWithOwner) AS 'Total Months of Cat Ownership for Black Cats'
+FROM    Cat
+WHERE   ColorOfCat = 'Black'
+
+/*Lesson 9*/
+/*Grouping or Summarizing Data*/
+SELECT  NameOfCat ,
+        COUNT(*) AS 'Number of Cats'
+FROM    Cat
+GROUP BY NameOfCat
+ORDER BY COUNT(*) DESC
+
+
+SELECT  CountryOfResidence ,
+        COUNT(*) AS NumberOfOwners
+FROM    dbo.PetOwner
+GROUP BY CountryOfResidence
+ORDER BY COUNT(*) DESC
+
+SELECT  CountryOfResidence ,
+        OwnerGender ,
+        COUNT(*) AS NumberOfOwners
+FROM    dbo.PetOwner
+GROUP BY CountryOfResidence ,
+        OwnerGender
+ORDER BY COUNT(*) DESC
+
+/*Change the Order By*/
+SELECT  CountryOfResidence ,
+        OwnerGender ,
+        COUNT(*) AS NumberOfOwners
+FROM    dbo.PetOwner
+GROUP BY CountryOfResidence ,
+        OwnerGender
+ORDER BY CountryOfResidence ,
+        COUNT(*) DESC
+
+
+
+/*Filtering Groups with Having Clause*/
+SELECT  CountryOfResidence ,
+        COUNT(*) AS NumberOfOwners
+FROM    dbo.PetOwner
+GROUP BY CountryOfResidence
+HAVING  COUNT(*) > 10
+ORDER BY COUNT(*) DESC
+
+SELECT  NameOfDog ,
+        PetOwner.CountryOfResidence ,
+        COUNT(*) AS NumberOfOwners
+FROM    PetOwner
+        INNER JOIN dbo.Dog ON Dog.OwnerIdentifier = PetOwner.OwnerIdentifier
+GROUP BY NameOfDog ,
+        PetOwner.CountryOfResidence
+HAVING  COUNT(*) > 3
+ORDER BY COUNT(*) DESC
+
+
+/*Using Where clause with Having*/
+SELECT  NameOfDog ,
+        PetOwner.CountryOfResidence ,
+        COUNT(*) AS NumberOfOwners
+FROM    PetOwner
+        INNER JOIN dbo.Dog ON Dog.OwnerIdentifier = PetOwner.OwnerIdentifier
+WHERE   CountryOfResidence != 'New Zealand'
+        AND NameOfDog != 'Spike'
+GROUP BY NameOfDog ,
+        PetOwner.CountryOfResidence
+HAVING  COUNT(*) > 3
+ORDER BY COUNT(*) DESC
+
+
+/*Lesson 10*/
+/*SubQueries*/
+
+/*Finding our data in steps.  Dogs needing updated shots*/
+SELECT  VeterinarianVisitHistory.DogIdentifier
+FROM    VeterinarianVisitHistory
+WHERE   RabiesShotCurrent = 0
+
+
+/*Now let's get the owners*/
+SELECT  PetOwner.OwnerName
+FROM    PetOwner
+        INNER JOIN Dog ON Dog.OwnerIdentifier = PetOwner.OwnerIdentifier
+WHERE   Dog.DogIdentifier IN ( 541, 551 )
+
+/*Use a subquery to get this all in one statement*/
+SELECT  PetOwner.OwnerName
+FROM    PetOwner
+        INNER JOIN Dog ON Dog.OwnerIdentifier = PetOwner.OwnerIdentifier
+        INNER JOIN ( SELECT VeterinarianVisitHistory.DogIdentifier
+                     FROM   VeterinarianVisitHistory
+                     WHERE  RabiesShotCurrent = 0
+                   ) shot ON shot.DogIdentifier = Dog.DogIdentifier
+
+/*This example could be rewritten to work with just joins*/
+SELECT  PetOwner.OwnerName
+FROM    PetOwner
+        INNER JOIN Dog ON Dog.OwnerIdentifier = PetOwner.OwnerIdentifier
+        INNER JOIN VeterinarianVisitHistory ON VeterinarianVisitHistory.DogIdentifier = Dog.DogIdentifier
+WHERE   RabiesShotCurrent = 0
+
+/*Here is where it gets exciting
+Using a value from a subquery in the final results*/
+SELECT  PetOwner.OwnerName ,
+        visits.VetVisits AS 'Number of Vet Visits'
+FROM    PetOwner
+        INNER JOIN Dog ON Dog.OwnerIdentifier = PetOwner.OwnerIdentifier
+        INNER JOIN ( SELECT VeterinarianVisitHistory.DogIdentifier ,
+                            COUNT(*) AS VetVisits
+                     FROM   VeterinarianVisitHistory
+                     GROUP BY VeterinarianVisitHistory.DogIdentifier
+                     HAVING COUNT(*) > 1
+                   ) visits ON visits.DogIdentifier = Dog.DogIdentifier
+
+/*Lesson 11*/
+/*Inserting Data*/
+INSERT  INTO [dbo].[Cat]
+        ( [BirthDateOfCat] ,
+          [BreedOfCat] ,
+          [ColorOfCat] ,
+          [KeptIndoors] ,
+          [MonthsWithOwner] ,
+          [NameOfCat] ,
+          [OwnerIdentifier]
+        )
+VALUES  ( '01/01/2014' ,
+          'Himalayan' ,
+          'Gray' ,
+          0 ,
+          18 ,
+          'Shadow' ,
+          84
+        )
+GO
+
+/* A second example without the columns listed.  This and the above query are the same, so don't run them both.
+INSERT INTO [dbo].[Cat]
+     VALUES
+           ('01/01/2014', 'Himalayan', 'Gray', 0, 18, 'Shadow',84)
+GO
+*/
+
+
+/*Inserting only required columns*/
+INSERT  INTO [dbo].[Cat]
+        ( [ColorOfCat] ,
+          [KeptIndoors] ,
+          [NameOfCat]
+        )
+VALUES  ( 'White' ,
+          0 ,
+          'Dru'
+        )
+GO
+
+
+/*Insert from another table*/
+INSERT  INTO dbo.Dog
+        ( BirthDateOfDog ,
+          BreedOfDog ,
+          ColorOfDog ,
+          KeptIndoors ,
+          MonthsWithOwner ,
+          NameOfDog ,
+          OwnerIdentifier
+        )
+        SELECT  BirthDateOfAnimal ,
+                BreedOfAnimal ,
+                ColorOfAnimal ,
+                KeptIndoors ,
+                MonthsWithOwner ,
+                NameOfAnimal ,
+                OwnerIdentifier
+        FROM    AnimalsToBePlaced
+        WHERE   TypeOfAnimal = 'Dog'
+
+
+INSERT  INTO dbo.Cat
+        ( BirthDateOfCat ,
+          BreedOfCat ,
+          ColorOfCat ,
+          KeptIndoors ,
+          MonthsWithOwner ,
+          NameOfCat ,
+          OwnerIdentifier
+        )
+        SELECT  BirthDateOfAnimal ,
+                BreedOfAnimal ,
+                ColorOfAnimal ,
+                KeptIndoors ,
+                MonthsWithOwner ,
+                NameOfAnimal ,
+                OwnerIdentifier
+        FROM    AnimalsToBePlaced
+        WHERE   TypeOfAnimal = 'Cat'
+
+
+/*If you run this, you will get an error*/
+SELECT  *
+FROM    DogsInEstablishedHomes
+
+/*Creating another table based on a select query*/
+SELECT  NameOfDog ,
+        BreedOfDog ,
+        ColorOfDog ,
+        MonthsWithOwner
+INTO    DogsInEstablishedHomes
+FROM    Dog
+WHERE   MonthsWithOwner > 24
+
+/*Now that the query has been run, the query will run successfully*/
+SELECT  *
+FROM    DogsInEstablishedHomes
+
+
+/*Lesson 12*/
+/*Update a cat's name*/
+UPDATE  Cat
+SET     NameOfCat = 'Mr. Wiskers'
+WHERE   NameOfCat = 'Wiskers'
+
+
+UPDATE  Cat
+SET     MonthsWithOwner = MonthsWithOwner + 2
+FROM    Cat
+        INNER JOIN PetOwner ON PetOwner.OwnerIdentifier = Cat.OwnerIdentifier
+WHERE   PetOwner.CountryOfResidence = 'Russia'
+
+/*Delete Records*/
+DELETE  FROM Dog
+WHERE   Dog.NameOfDog = 'Test'
+
+/*Lesson 13*/
+/*Creating Tables*/
+/*Create the Table Fish*/
+CREATE TABLE Fish
+    (
+      FishIdentifier INT IDENTITY(1500, 1) ,
+      BirthDateOfFish DATETIME NULL ,
+      BreedOfFish VARCHAR(30) NULL ,
+      ColorOfFish VARCHAR(25) NOT NULL ,
+      MonthsWithOwner INT NULL ,
+      NameOfFish CHAR(40) NOT NULL ,
+      OwnerIdentifier INT NULL ,
+      TankSizeInGallons SMALLINT NULL ,
+      PRIMARY KEY NONCLUSTERED ( FishIdentifier )
+    )
+
+/*Lesson 14*/
+/*Create a View*/
+CREATE VIEW v_SearchForGarfield
+AS
+    ( SELECT    *
+      FROM      Cat
+      WHERE     Cat.NameOfCat = 'Garfield'
+    )
+
+/*Now select from the View*/
+SELECT  NameOfCat, ColorOfCat
+FROM    v_SearchForGarfield
+
+
+/*Lesson 15*/
+/*Security
+Creating a Role*/
+CREATE ROLE DogsOnly;
+
+/*Granting permissions to the role*/
+GRANT SELECT ON PetOwner TO DogsOnly;
+GRANT SELECT ON Dog TO DogsOnly;
+
+/*Chapter 16*/
+/*Making changes to a column*/
+ALTER TABLE PetOwner ALTER COLUMN OwnerName VARCHAR (100)
+
+
+ALTER TABLE Dog ADD PetNickName VARCHAR(50)
+
+
+/*Lesson 20*/
+/*Working with Dates*/
+SELECT GETDATE()
+
+
+SELECT Dog.NameOfDog, DATEDIFF(YY,Dog.BirthDateOfDog,GETDATE()) AS AgeOfDog
+FROM DOG
+
+SELECT Cat.NameOfCat, DATEDIFF(YY,Cat.BirthDateOfCat,GETDATE()) AS AgeOfDog, DATEDIFF(YY,Cat.BirthDateOfCat,GETDATE()) * 7 AS AgeInHumanYears
+FROM Cat
+
+
+SELECT YEAR(Dog.BirthDateOfDog) AS BirthYear, COUNT(*) 'Number of Births'
+FROM DOG
+GROUP BY YEAR(Dog.BirthDateOfDog)
+ORDER BY YEAR(Dog.BirthDateOfDog)
+
+SELECT * FROM dog WHERE YEAR(Dog.BirthDateOfDog) = 1949
+
+SELECT Month(BirthDateOfDog)
+FROM Dog
