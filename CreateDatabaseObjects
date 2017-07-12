@@ -45,7 +45,6 @@ CREATE TABLE Cat
       MonthsWithOwner INT NULL ,
       NameOfCat CHAR(40) NOT NULL ,
       OwnerIdentifier INT NULL ,
-	  WeightOfCatInPounds SMALLINT NULL,
       PRIMARY KEY NONCLUSTERED ( CatIdentifier )
     )
 GO
@@ -72,7 +71,6 @@ CREATE TABLE Dog
       MonthsWithOwner INT NULL ,
       NameOfDog CHAR(40) NOT NULL ,
       OwnerIdentifier INT NULL ,
-	  WeightOfDogInPounds SMALLINT NULL,
       PRIMARY KEY NONCLUSTERED ( DogIdentifier )
     )
 GO
@@ -270,10 +268,10 @@ GO
 CREATE VIEW Random_V
 AS
  SELECT RAND() rndResult
- GO;
+ GO
   
 
-ALTER FUNCTION ChooseNewName 
+Create FUNCTION ChooseNewName 
 (
 @AnimalType VARCHAR(15)
 )
