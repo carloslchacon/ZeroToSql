@@ -1,9 +1,7 @@
 USE LearnSQL
 GO
 
---SELECT 'INSERT INTO PetOwner VALUES (''' + PetOwner.OwnerName + ''','+ CONVERT(VARCHAR(2),PetOwner.OwnerAge) + ',''' + PetOwner.OwnerGender + ''',''' + PetOwner.CountryOfResidence + ''')'
---FROM PetOwner
-
+/*PetOwner*/
 INSERT INTO PetOwner VALUES ('Jon Arbuckle',40,'M','United States Of America')
 INSERT INTO PetOwner VALUES ('James Jones',50,'M','Costa Rica')
 INSERT INTO PetOwner VALUES ('Sophia',60,'F','United States Of America')
@@ -360,10 +358,9 @@ INSERT INTO PetOwner VALUES ('Marvin',27,'M','United States Of America')
 INSERT INTO PetOwner VALUES ('Anna Headless',29,'F','United States Of America')
 INSERT INTO PetOwner VALUES ('Vincent',31,'M','Great Britain')
 
-SELECT 'INSERT INTO Dog VALUES (''' + CONVERT(VARCHAR(15),Dog.BirthDateOfDog,101) + ''',''' + Dog.BreedOfDog + ''',''' + Dog.ColorOfDog + ''',' +  CONVERT(VARCHAR(1),Dog.KeptIndoors) + ',' + CONVERT(VARCHAR(3),Dog.MonthsWithOwner) + ',''' + Dog.NameOfDog + ''',' + CONVERT(VARCHAR(4),Dog.OwnerIdentifier) + CONVERT(VARCHAR(4),Dog.WeightOfDogInPounds) +')'
-FROM Dog
+/*Dog*/
 
-INSERT INTO Dog VALUES ('08/08/1977','Abruzzenhund','Yellow',1,442,'Odie',1)
+INSERT INTO Dog VALUES ('08/08/1978','Abruzzenhund','Yellow',1,442,'Odie',1)
 INSERT INTO Dog VALUES ('01/01/2008','Afador','Brown',1,12,'Laddie',3)
 INSERT INTO Dog VALUES ('11/15/2012','Bergamasco','Tan',1,13,'Benji',6)
 INSERT INTO Dog VALUES ('01/21/2010','Berger de Picard','White',1,14,'Ace',9)
@@ -517,7 +514,7 @@ INSERT INTO Dog VALUES ('11/11/2014','Cambodian Razorback Dog','Black',0,9,'Spik
 INSERT INTO Dog VALUES ('12/12/2012','Canaan Dog','White and Yellow',0,5,'Pongo',44)
 INSERT INTO Dog VALUES ('12/13/2013','Canadian Cur','Red',0,10,'Spike',46)
 INSERT INTO Dog VALUES ('01/06/2014','Canadian Eskimo Dog','Yellow',0,4,'Spike',48)
-INSERT INTO Dog VALUES ('02/02/1949','Canary Dog','Brown',0,780,'Snoopy',50)
+INSERT INTO Dog VALUES ('10/04/1950','Beagle','White',0,780,'Snoopy',50)
 INSERT INTO Dog VALUES ('12/12/2015','Cane Corso Italiano','Tan',0,1,'Spike',52)
 INSERT INTO Dog VALUES ('08/08/2007','Canis Panther','White',1,7,'Butch',54)
 INSERT INTO Dog VALUES ('01/01/2014','Caravan Hound','Gray',1,9,'Ace',56)
@@ -622,8 +619,7 @@ INSERT INTO Dog VALUES ('04/13/2012','Large Munsterlander','White',0,6,'Rover',2
 INSERT INTO Dog VALUES ('05/16/2015','Lundehund','Gray',1,2,'Spike',245)
 INSERT INTO Dog VALUES ('06/16/2015','Bengal','Black and White',1,2,'Spike',246)
 
---SELECT 'INSERT INTO CAT VALUES (''' + CONVERT(VARCHAR(15),Cat.BirthDateOfCat,101) + ''',''' + Cat.BreedOfCat + ''','''  + [ColorOfCat] + ''',' +  CONVERT(VARCHAR(1),Cat.KeptIndoors) + ',' + CONVERT(VARCHAR(3),Cat.MonthsWithOwner) + ',''' + Cat.NameOfCat + ''',' + CONVERT(VARCHAR(4),Cat.OwnerIdentifier) + CONVERT(VARCHAR(4),Cat.WeightOfCatInPounds) +')'
---FROM Cat
+/*Cat*/
 
 INSERT INTO CAT VALUES ('06/19/1978','Tabby','Orange',1,444,'Garfield',1)
 INSERT INTO CAT VALUES ('01/01/2008','Abyssinian','Yellow',1,12,'Ellie',5)
@@ -892,7 +888,7 @@ INSERT INTO CAT VALUES ('10/10/2003','Ragdoll','Red',1,120,'Cali',276)
 INSERT INTO CAT VALUES ('01/01/2003','Russian Blue','Black',1,40,'Felix',280)
 INSERT INTO CAT VALUES ('01/01/2014','Himalayan','',0,18,'Shadow',84)
 
-
+/*VeterinarianVisitHistory*/
 INSERT INTO VeterinarianVisitHistory VALUES ( '06/01/2015','Fight with Animal',0,1,'07/01/2015',535,NULL,NULL)
 INSERT INTO VeterinarianVisitHistory VALUES ( '06/02/2015','Yearly Checkup',1,0,'06/01/2016',537,NULL,NULL)
 INSERT INTO VeterinarianVisitHistory VALUES ( '06/03/2015','Losing Hair',1,0,'11/15/2015',539,NULL,NULL)
@@ -982,6 +978,7 @@ UPDATE VeterinarianVisitHistory
 SET RabiesShotCurrent = 1
 WHERE VeterinarianVisitHistory.DogIdentifier IS NULL
 
+/*AnimalsToBePlaced*/
 INSERT INTO AnimalsToBePlaced VALUES ('02/02/2003','Belgian Shepherd Groenendael','Tan',1,22,'Bodger',50,'Dog')
 INSERT INTO AnimalsToBePlaced VALUES ('02/02/2003','Catalan SheepAnimalsToBePlaced','Black and White',1,140,'Buddy',51,'Dog')
 INSERT INTO AnimalsToBePlaced VALUES ('09/09/2002','Caucasian Ovtcharka','White and Yellow',1,120,'Chance',52,'Dog')
